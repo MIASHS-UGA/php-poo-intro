@@ -1,12 +1,12 @@
 <?php
 class Personnage
 {
-    private $_id;
-    private $_nom;
-    private $_forcePerso;
-    private $_degats;
-    private $_niveau;
-    private $_experience;
+    private $id;
+    private $nom;
+    private $forcePerso;
+    private $degats;
+    private $niveau;
+    private $experience;
 
     public function __construct($values = array())
     {
@@ -50,33 +50,33 @@ class Personnage
 
     public function id()
     {
-        return $this->_id;
+        return $this->id;
     }
     public function nom()
     {
-        return $this->_nom;
+        return $this->nom;
     }
     public function forcePerso()
     {
-        return $this->_forcePerso;
+        return $this->forcePerso;
     }
     public function degats()
     {
-        return $this->_degats;
+        return $this->degats;
     }
     public function niveau()
     {
-        return $this->_niveau;
+        return $this->niveau;
     }
     public function experience()
     {
-        return $this->_experience;
+        return $this->experience;
     }
 
     public function setId($id)
     {
         // L'identifiant du personnage sera, quoi qu'il arrive, un nombre entier.
-        $this->_id = (int) $id;
+        $this->id = (int) $id;
     }
 
     public function setNom($nom)
@@ -84,7 +84,7 @@ class Personnage
         // On vérifie qu'il s'agit bien d'une chaîne de caractères.
         // Dont la longueur est inférieure à 30 caractères.
         if (is_string($nom) && strlen($nom) <= 30) {
-            $this->_nom = $nom;
+            $this->nom = $nom;
         }
     }
 
@@ -99,7 +99,7 @@ class Personnage
 
         // On vérifie que la force passée est comprise entre 0 et 100.
         if ($forcePerso >= 0 && $forcePerso <= 100) {
-            $this->_forcePerso = $forcePerso;
+            $this->forcePerso = $forcePerso;
         }
     }
 
@@ -109,7 +109,7 @@ class Personnage
 
         // On vérifie que les dégâts passés sont compris entre 0 et 100.
         if ($degats >= 0 && $degats <= 100) {
-            $this->_degats = $degats;
+            $this->degats = $degats;
         }
     }
 
@@ -119,7 +119,7 @@ class Personnage
 
         // On vérifie que le niveau n'est pas négatif.
         if ($niveau >= 0) {
-            $this->_niveau = $niveau;
+            $this->niveau = $niveau;
         }
     }
 
@@ -129,17 +129,19 @@ class Personnage
 
         // On vérifie que l'expérience est comprise entre 0 et 100.
         if ($exp >= 0 && $exp <= 100) {
-            $this->_experience = $exp;
+            $this->experience = $exp;
         }
     }
 
     public function frapper(Personnage $persoAFrapper)
     {
-        $persoAFrapper->_degats += $this->_forcePerso;
+        // Utiliser les getters/setters plutôt que l'accès direct aux propriétés privées.
+        $persoAFrapper->setDegats($persoAFrapper->degats() + $this->forcePerso());
     }
 
     public function gagnerExperience()
     {
-        $this->_experience++;
+        // Respecter les validations du setter.
+        $this->setExperience($this->experience() + 1);
     }
 }
